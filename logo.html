@@ -1,309 +1,401 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Logo生成器 - Favicon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo生成器 - Favicon</title>
     <link rel="icon" type="image/x-icon" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon.svg">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link href="/assets/css/common.css" rel="stylesheet">
-<link href="/assets/css/footer.css" rel="stylesheet">
-<style>
- 
-.page-header {
-    margin-bottom: 30px;
-    text-align: center;
-}
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a56d4;
+            --dark-color: #2d3748;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
 
-.page-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: var(--dark-color);
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.page-header p {
-    color: #6c757d;
-    font-size: 1.1rem;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-/* 生成器容器 */
-.generator-container {
-    display: grid;
-    grid-template-columns: 38% 60%;
-    gap: 30px;
-}
+        /* 导航栏样式 */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-@media (max-width: 992px) {
-    .generator-container {
-        grid-template-columns: 1fr;
-    }
-}
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
 
-/* 控制面板 */
-.controls {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    overflow-y: visible;
-    max-height: none;
-    padding-right: 0;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark-color);
+        }
 
-.control-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+        .logo-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
 
-.control-group label {
-    font-weight: 500;
-    color: var(--dark-color);
-}
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
 
-.control-group input, .control-group select {
-    padding: 10px 12px;
-    border: 1px solid #ced4da;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    transition: var(--transition);
-}
+        .nav-links li {
+            margin-left: 25px;
+        }
 
-.control-group input:focus, .control-group select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-}
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+        }
 
-/* 颜色选择器样式 */
-.color-picker {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
 
-.hue-slider {
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to right, 
-        #ff0000, #ff8000, #ffff00, #80ff00, 
-        #00ff00, #00ff80, #00ffff, #0080ff, 
-        #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
-    border-radius: 10px;
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
-    margin-bottom: 5px;
-}
+        /* 工具卡片样式 */
+        .tool-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
 
-.hue-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid #ddd;
-    cursor: pointer;
-}
+        .page-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
 
-.lightness-slider {
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to right, 
-        #000000, #888888, #ffffff);
-    border-radius: 10px;
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
-    margin-top: 5px;
-}
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
 
-.lightness-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid #ddd;
-    cursor: pointer;
-}
+        .page-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
 
-.color-preview-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 5px;
-}
+        /* 生成器容器 */
+        .generator-container {
+            display: grid;
+            grid-template-columns: 38% 60%;
+            gap: 30px;
+        }
 
-.color-preview {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
+        @media (max-width: 992px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+            }
+        }
 
-.color-input {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        /* 控制面板 */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: visible;
+            max-height: none;
+            padding-right: 0;
+        }
 
-.color-input input[type="text"] {
-    width: 80px;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: var(--border-radius);
-}
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-/* 字体大小滑块样式 */
-.font-size-control {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
-}
+        .control-group label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
 
-.font-size-slider {
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to right, #f0f0f0, #ddd);
-    border-radius: 10px;
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
-}
+        .control-group input, .control-group select {
+            padding: 10px 12px;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
 
-.font-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    border: 2px solid white;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
+        .control-group input:focus, .control-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
 
-.font-size-value {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    color: #6c757d;
-}
+        /* 颜色选择器样式 */
+        .color-picker {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-.font-size-number {
-    font-weight: 600;
-    color: var(--dark-color);
-}
+        .hue-slider {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to right,
+            #ff0000, #ff8000, #ffff00, #80ff00,
+            #00ff00, #00ff80, #00ffff, #0080ff,
+            #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+            border-radius: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            margin-bottom: 5px;
+        }
 
-/* 尺寸自定义输入框 */
-.size-custom-inputs {
-    display: none;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 10px;
-}
+        .hue-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
 
-#logo-size:checked ~ .size-custom-inputs {
-    display: grid;
-}
+        .lightness-slider {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to right,
+            #000000, #888888, #ffffff);
+            border-radius: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            margin-top: 5px;
+        }
 
-/* 预览区域 */
-.preview-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-}
+        .lightness-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
 
-.preview-container {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f8f9fa;
-    border-radius: var(--border-radius);
-    border: 1px solid #ced4da;
-    padding: 0; /* 移除内边距确保完全填充 */
-    overflow: hidden;
-}
+        .color-preview-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
 
-#logo-preview {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
 
-/* 下载按钮 */
-.download-section {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    margin-top: 20px;
-}
+        .color-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.download-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-}
+        .color-input input[type="text"] {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
+        }
 
-.download-btn:hover {
-    background-color: var(--secondary-color);
-}
+        /* 字体大小滑块样式 */
+        .font-size-control {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 5px;
+        }
 
-.download-btn.secondary {
-    background-color: #6c757d;
-}
+        .font-size-slider {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to right, #f0f0f0, #ddd);
+            border-radius: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+        }
 
-.download-btn.secondary:hover {
-    background-color: #5a6268;
-}
-</style>
+        .font-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .font-size-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .font-size-number {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* 尺寸自定义输入框 */
+        .size-custom-inputs {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        #logo-size:checked ~ .size-custom-inputs {
+            display: grid;
+        }
+
+        /* 预览区域 */
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .preview-container {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            border: 1px solid #ced4da;
+            padding: 0; /* 移除内边距确保完全填充 */
+            overflow: hidden;
+        }
+
+        #logo-preview {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* 下载按钮 */
+        .download-section {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .download-btn.secondary {
+            background-color: #6c757d;
+        }
+
+        .download-btn.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* 字体加载提示 */
+        .font-loading {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 
 <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="material-symbols-outlined logo-icon">
-				<!-- favorite_border -->
-				<img src="/assets/favicon-32x32.png"/></span>
-                Favicon工具箱
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html" >首页</a></li>
-                <li><a href="text-to-favicon.html">文本生成</a></li>
-                <li><a href="image-to-favicon.html">图片转换</a></li>
-                <li><a href="emoji-to-favicon.html">表情符号</a></li>
-                <li><a href="tutorials.html">教程</a></li>
-				<li><a href="logo.html" class="active">Logo生成</a></li>
-            </ul>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <span class="material-symbols-outlined logo-icon">
+            </span>
+            Favicon工具箱
         </div>
-    </nav>
-	
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="text-to-favicon.html">文本生成</a></li>
+            <li><a href="image-to-favicon.html">图片转换</a></li>
+            <li><a href="emoji-to-favicon.html">表情符号</a></li>
+            <li><a href="tutorials.html">教程</a></li>
+            <li><a href="logo.html" class="active">Logo生成</a></li>
+        </ul>
+    </div>
+</nav>
+
 <div class="container">
     <div class="page-header">
         <h1>Logo生成器</h1>
@@ -321,30 +413,54 @@
                 <div class="control-group">
                     <label for="square-font">方形内字体</label>
                     <select id="square-font">
-                        <option value="Arial">Arial</option>
-                        <option value="Verdana">Verdana</option>
-                        <option value="Helvetica">Helvetica</option>
-                        <option value="Tahoma">Tahoma</option>
-                        <option value="Trebuchet MS">Trebuchet MS</option>
-                        <option value="Times New Roman">Times New Roman</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Garamond">Garamond</option>
-                        <option value="Courier New">Courier New</option>
-                        <option value="Brush Script MT">Brush Script MT</option>
-                        <option value="Inter" selected>Inter</option>
-                        <option value="Roboto">Roboto</option>
-                        <option value="Montserrat">Montserrat</option>
-                        <option value="Poppins">Poppins</option>
-                        <option value="Playfair">Playfair</option>
-                        <option value="Lato">Lato</option>
+                        <optgroup label="常规字体">
+                            <option value="Arial">Arial</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Garamond">Garamond</option>
+                            <option value="Brush Script MT">Brush Script MT</option>
+                            <option value="Inter" selected>Inter</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Poppins">Poppins</option>
+                            <option value="Playfair">Playfair</option>
+                            <option value="Lato">Lato</option>
+                        </optgroup>
+                        <optgroup label="等宽字体">
+                            <option value="Courier New">Courier New (等宽)</option>
+                            <option value="Consolas">Consolas (等宽)</option>
+                            <option value="Lucida Console">Lucida Console (等宽)</option>
+                            <option value="Monaco">Monaco (等宽)</option>
+                            <option value="Andale Mono">Andale Mono (等宽)</option>
+                            <option value="Menlo">Menlo (等宽)</option>
+                            <option value="Roboto Mono">Roboto Mono (等宽)</option>
+                            <option value="Source Code Pro">Source Code Pro (等宽)</option>
+                            <option value="Fira Code">Fira Code (等宽，带连字)</option>
+                            <option value="Inconsolata">Inconsolata (等宽)</option>
+                            <option value="Droid Sans Mono">Droid Sans Mono (等宽)</option>
+                            <option value="PT Mono">PT Mono (等宽)</option>
+                            <option value="DejaVu Sans Mono">DejaVu Sans Mono (等宽)</option>
+                            <option value="Liberation Mono">Liberation Mono (等宽)</option>
+                            <option value="Ubuntu Mono">Ubuntu Mono (等宽)</option>
+                            <option value="Cascadia Code">Cascadia Code (等宽)</option>
+                            <option value="JetBrains Mono">JetBrains Mono (等宽)</option>
+                            <option value="Hack">Hack (等宽)</option>
+                            <option value="Iosevka">Iosevka (等宽)</option>
+                            <option value="Space Mono">Space Mono (等宽)</option>
+                        </optgroup>
                     </select>
+                    <div class="font-loading" id="square-font-loading">字体加载中...</div>
                 </div>
 
                 <!-- 新增方形内字体大小滑块 -->
                 <div class="control-group">
                     <label>方形内字体大小</label>
                     <div class="font-size-control">
-                        <input type="range" class="font-size-slider" id="square-font-size" min="50" max="200" value="90">
+                        <input type="range" class="font-size-slider" id="square-font-size" min="50" max="200" value="120">
                         <div class="font-size-value">
                             <span>字体大小:</span>
                             <span class="font-size-number" id="square-font-size-value">40px</span>
@@ -388,23 +504,47 @@
                 <div class="control-group">
                     <label for="secondary-font">副文本字体</label>
                     <select id="secondary-font">
-                        <option value="Arial">Arial</option>
-                        <option value="Verdana">Verdana</option>
-                        <option value="Helvetica">Helvetica</option>
-                        <option value="Tahoma">Tahoma</option>
-                        <option value="Trebuchet MS">Trebuchet MS</option>
-                        <option value="Times New Roman">Times New Roman</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Garamond">Garamond</option>
-                        <option value="Courier New">Courier New</option>
-                        <option value="Brush Script MT">Brush Script MT</option>
-                        <option value="Inter" selected>Inter</option>
-                        <option value="Roboto">Roboto</option>
-                        <option value="Montserrat">Montserrat</option>
-                        <option value="Poppins">Poppins</option>
-                        <option value="Playfair">Playfair</option>
-                        <option value="Lato">Lato</option>
+                        <optgroup label="常规字体">
+                            <option value="Arial">Arial</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Garamond">Garamond</option>
+                            <option value="Brush Script MT">Brush Script MT</option>
+                            <option value="Inter" selected>Inter</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Poppins">Poppins</option>
+                            <option value="Playfair">Playfair</option>
+                            <option value="Lato">Lato</option>
+                        </optgroup>
+                        <optgroup label="等宽字体">
+                            <option value="Courier New">Courier New (等宽)</option>
+                            <option value="Consolas">Consolas (等宽)</option>
+                            <option value="Lucida Console">Lucida Console (等宽)</option>
+                            <option value="Monaco">Monaco (等宽)</option>
+                            <option value="Andale Mono">Andale Mono (等宽)</option>
+                            <option value="Menlo">Menlo (等宽)</option>
+                            <option value="Roboto Mono">Roboto Mono (等宽)</option>
+                            <option value="Source Code Pro">Source Code Pro (等宽)</option>
+                            <option value="Fira Code">Fira Code (等宽，带连字)</option>
+                            <option value="Inconsolata">Inconsolata (等宽)</option>
+                            <option value="Droid Sans Mono">Droid Sans Mono (等宽)</option>
+                            <option value="PT Mono">PT Mono (等宽)</option>
+                            <option value="DejaVu Sans Mono">DejaVu Sans Mono (等宽)</option>
+                            <option value="Liberation Mono">Liberation Mono (等宽)</option>
+                            <option value="Ubuntu Mono">Ubuntu Mono (等宽)</option>
+                            <option value="Cascadia Code">Cascadia Code (等宽)</option>
+                            <option value="JetBrains Mono">JetBrains Mono (等宽)</option>
+                            <option value="Hack">Hack (等宽)</option>
+                            <option value="Iosevka">Iosevka (等宽)</option>
+                            <option value="Space Mono">Space Mono (等宽)</option>
+                        </optgroup>
                     </select>
+                    <div class="font-loading" id="secondary-font-loading">字体加载中...</div>
                 </div>
 
                 <!-- 新增副文本字体大小滑块 -->
@@ -515,28 +655,90 @@
     const downloadPngBtn = document.getElementById('download-png');
     const downloadSvgBtn = document.getElementById('download-svg');
     const previewContainer = document.querySelector('.preview-container');
+    const squareFontLoading = document.getElementById('square-font-loading');
+    const secondaryFontLoading = document.getElementById('secondary-font-loading');
+
+    // 字体映射表 - 将字体名称映射到对应的Google Fonts URL
+    const fontMap = {
+        'Inter': 'Inter:wght@300;400;500;600;700',
+        'Roboto': 'Roboto:wght@300;400;500;700',
+        'Montserrat': 'Montserrat:wght@300;400;500;600;700',
+        'Poppins': 'Poppins:wght@300;400;500;600;700',
+        'Playfair': 'Playfair+Display:wght@400;500;600;700',
+        'Lato': 'Lato:wght@300;400;700'
+    };
+
+    // 已加载的字体集合
+    const loadedFonts = new Set();
 
     // 初始化SVG尺寸
     function initSvgSize() {
         const width = previewContainer.clientWidth;
         const height = previewContainer.clientHeight;
-        
+
         // 设置SVG尺寸与预览区完全一致
         logoPreview.setAttribute('width', width);
         logoPreview.setAttribute('height', height);
         logoPreview.setAttribute('viewBox', `0 0 ${width} ${height}`);
-        
+
         return { width, height };
+    }
+
+    // 加载字体
+    function loadFont(fontName, loadingElement) {
+        // 如果字体已经在加载或已加载，直接返回
+        if (loadedFonts.has(fontName)) {
+            loadingElement.textContent = '字体已加载';
+            return Promise.resolve();
+        }
+
+        // 检查是否为系统字体
+        const systemFonts = ['Arial', 'Verdana', 'Helvetica', 'Tahoma', 'Trebuchet MS',
+            'Times New Roman', 'Georgia', 'Garamond', 'Courier New', 'Brush Script MT'];
+
+        if (systemFonts.includes(fontName)) {
+            loadingElement.textContent = '使用系统字体';
+            loadedFonts.add(fontName);
+            return Promise.resolve();
+        }
+
+        // 检查是否为Google Fonts字体
+        if (fontMap[fontName]) {
+            loadingElement.textContent = '加载字体中...';
+
+            return new Promise((resolve) => {
+                // 创建字体链接
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = `https://fonts.googleapis.com/css2?family=${fontMap[fontName]}&display=swap`;
+
+                link.onload = () => {
+                    loadedFonts.add(fontName);
+                    loadingElement.textContent = '字体已加载';
+                    resolve();
+                };
+
+                link.onerror = () => {
+                    loadingElement.textContent = '字体加载失败，使用备用字体';
+                    resolve();
+                };
+
+                document.head.appendChild(link);
+            });
+        } else {
+            loadingElement.textContent = '字体不可用，使用默认字体';
+            return Promise.resolve();
+        }
     }
 
     // 初始化
     function init() {
         // 输入变化监听
         squareText.addEventListener('input', updateLogo);
-        squareFont.addEventListener('change', updateLogo);
+        squareFont.addEventListener('change', updateSquareFont);
         squareFontSize.addEventListener('input', updateSquareFontSize);
         secondaryText.addEventListener('input', updateLogo);
-        secondaryFont.addEventListener('change', updateLogo);
+        secondaryFont.addEventListener('change', updateSecondaryFont);
         secondaryFontSize.addEventListener('input', updateSecondaryFontSize);
         logoSize.addEventListener('change', updateLogoSize);
         customWidth.addEventListener('input', updateLogoSize);
@@ -573,14 +775,30 @@
         // 窗口大小变化监听
         window.addEventListener('resize', updateLogo);
 
-        // 初始更新
-        updateSquareFontSize();
-        updateSecondaryFontSize();
-        updateSquareColor();
-        updateSquareBgColor();
-        updateSecondaryColor();
-        updateBgColor();
-        updateLogo();
+        // 初始加载字体
+        Promise.all([
+            loadFont(squareFont.value, squareFontLoading),
+            loadFont(secondaryFont.value, secondaryFontLoading)
+        ]).then(() => {
+            // 初始更新
+            updateSquareFontSize();
+            updateSecondaryFontSize();
+            updateSquareColor();
+            updateSquareBgColor();
+            updateSecondaryColor();
+            updateBgColor();
+            updateLogo();
+        });
+    }
+
+    // 更新方形内字体
+    function updateSquareFont() {
+        loadFont(squareFont.value, squareFontLoading).then(updateLogo);
+    }
+
+    // 更新副文本字体
+    function updateSecondaryFont() {
+        loadFont(secondaryFont.value, secondaryFontLoading).then(updateLogo);
     }
 
     // 更新方形内字体大小
@@ -601,18 +819,18 @@
     function updateColorFromInput(type) {
         const inputElement = document.getElementById(`${type}-input`);
         const colorValue = inputElement.value;
-        
+
         if (/^#[0-9A-F]{6}$/i.test(colorValue)) {
             // 将十六进制颜色转换为HSL
             const hsl = hexToHsl(colorValue);
-            
+
             // 更新滑块位置
             document.getElementById(`${type}-hue`).value = hsl.h;
             document.getElementById(`${type}-lightness`).value = hsl.l;
-            console.log('h',hsl.h, 'l',hsl.l);
+
             // 更新预览
             document.getElementById(`${type}-preview`).style.backgroundColor = colorValue;
-            
+
             // 更新Logo
             updateLogo();
         }
@@ -622,32 +840,32 @@
     function hexToHsl(hex) {
         // 移除#号
         hex = hex.replace('#', '');
-        
+
         // 转换为RGB
         const r = parseInt(hex.substring(0, 2), 16) / 255;
         const g = parseInt(hex.substring(2, 4), 16) / 255;
         const b = parseInt(hex.substring(4, 6), 16) / 255;
-        
+
         // 计算HSL
         const max = Math.max(r, g, b);
         const min = Math.min(r, g, b);
         let h, s, l = (max + min) / 2;
-        
+
         if (max === min) {
             h = s = 0; // 无色调
         } else {
             const d = max - min;
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            
+
             switch (max) {
                 case r: h = (g - b) / d + (g < b ? 6 : 0); break;
                 case g: h = (b - r) / d + 2; break;
                 case b: h = (r - g) / d + 4; break;
             }
-            
+
             h /= 6;
         }
-        
+
         return {
             h: Math.round(h * 360),
             s: Math.round(s * 100),
@@ -660,9 +878,9 @@
         h /= 360;
         s = 1; // 固定饱和度
         l /= 100;
-        
+
         let r, g, b;
-        
+
         if (s === 0) {
             r = g = b = l;
         } else {
@@ -674,20 +892,20 @@
                 if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
                 return p;
             };
-            
+
             const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
             const p = 2 * l - q;
-            
+
             r = hue2rgb(p, q, h + 1/3);
             g = hue2rgb(p, q, h);
             b = hue2rgb(p, q, h - 1/3);
         }
-        
+
         const toHex = x => {
             const hex = Math.round(x * 255).toString(16);
             return hex.length === 1 ? '0' + hex : hex;
         };
-        
+
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     }
 
@@ -731,68 +949,67 @@
         updateLogo();
     }
 
-	// 更新Logo预览 - 动态计算居中位置
-	function updateLogo() {
-		const { width, height } = initSvgSize();
-		const squareTextValue = squareText.value || 'LOGO';
-		const squareFontValue = squareFont.value;
-		const squareFontSizeValue = squareFontSize.value;
-		const squareColorValue = squareColorInput.value;
-		const squareBgColorValue = squareBgColorInput.value;
-		const secondaryTextValue = secondaryText.value || 'Company Name';
-		const secondaryFontValue = secondaryFont.value;
-		const secondaryFontSizeValue = secondaryFontSize.value;
-		const secondaryColorValue = secondaryColorInput.value;
-		const bgColorValue = bgColorInput.value;
+    // 更新Logo预览 - 动态计算居中位置
+    function updateLogo() {
+        const { width, height } = initSvgSize();
+        const squareTextValue = squareText.value || 'LOGO';
+        const squareFontValue = squareFont.value;
+        const squareFontSizeValue = squareFontSize.value;
+        const squareColorValue = squareColorInput.value;
+        const squareBgColorValue = squareBgColorInput.value;
+        const secondaryTextValue = secondaryText.value || 'Company Name';
+        const secondaryFontValue = secondaryFont.value;
+        const secondaryFontSizeValue = secondaryFontSize.value;
+        const secondaryColorValue = secondaryColorInput.value;
+        const bgColorValue = bgColorInput.value;
 
-		// 创建临时SVG元素用于测量文本宽度
-		const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-		const tempText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-		tempText.setAttribute('font-family', secondaryFontValue);
-		tempText.setAttribute('font-size', secondaryFontSizeValue);
-		tempText.textContent = secondaryTextValue;
-		tempSvg.appendChild(tempText);
-		document.body.appendChild(tempSvg);
-		
-		// 获取副文本宽度
-		const secondaryTextBBox = tempText.getBBox();
-		const secondaryTextWidth = secondaryTextBBox.width;
-		document.body.removeChild(tempSvg);
+        // 创建临时SVG元素用于测量文本宽度
+        const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        const tempText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        tempText.setAttribute('font-family', secondaryFontValue);
+        tempText.setAttribute('font-size', secondaryFontSizeValue);
+        tempText.textContent = secondaryTextValue;
+        tempSvg.appendChild(tempText);
+        document.body.appendChild(tempSvg);
 
-		// 计算方形尺寸
-		const squareSize = Math.min(width, height) * 0.35;
-		
-		// 计算总宽度（方形 + 间距 + 副文本宽度）
-		const spacing = width * 0.05; // 5%的间距
-		const totalWidth = squareSize + spacing + secondaryTextWidth;
-		
-		// 计算居中起始位置
-		const startX = (width - totalWidth) / 2;
-		
-		// 计算各元素位置
-		const squareX = startX;
-		const squareY = height * 0.3;
-		const textX = squareX + squareSize * 0.5;
-		const textY = squareY + squareSize * 0.6;
-		const secondaryTextX = squareX + squareSize + spacing;
-		const secondaryTextY = height * 0.5;
+        // 获取副文本宽度
+        const secondaryTextBBox = tempText.getBBox();
+        const secondaryTextWidth = secondaryTextBBox.width;
+        document.body.removeChild(tempSvg);
 
-		logoPreview.innerHTML = `
-			<!-- 背景矩形 - 完全填充SVG区域 -->
-			<rect width="${width}" height="${height}" fill="${bgColorValue}"/>
-			
-			<!-- 内容组 -->
-			<g>
-				<!-- 左侧方形 -->
-				<rect x="${squareX}" y="${squareY}" width="${squareSize}" height="${squareSize}" rx="10" fill="${squareBgColorValue}"/>
-				<text x="${textX}" y="${textY}" font-family="${squareFontValue}" font-size="${squareFontSizeValue}" fill="${squareColorValue}" text-anchor="middle" dominant-baseline="middle">${squareTextValue}</text>
-				
-				<!-- 右侧副文本 -->
-				<text x="${secondaryTextX}" y="${secondaryTextY}" font-family="${secondaryFontValue}" font-size="${secondaryFontSizeValue}" fill="${secondaryColorValue}" text-anchor="left" dominant-baseline="middle">${secondaryTextValue}</text>
-			</g>
-		`;
-	}
+        // 计算方形尺寸
+        const squareSize = Math.min(width, height) * 0.35;
 
+        // 计算总宽度（方形 + 间距 + 副文本宽度）
+        const spacing = width * 0.05; // 5%的间距
+        const totalWidth = squareSize + spacing + secondaryTextWidth;
+
+        // 计算居中起始位置
+        const startX = (width - totalWidth) / 2;
+
+        // 计算各元素位置
+        const squareX = startX;
+        const squareY = height * 0.3;
+        const textX = squareX + squareSize * 0.5;
+        const textY = squareY + squareSize * 0.6;
+        const secondaryTextX = squareX + squareSize + spacing;
+        const secondaryTextY = height * 0.5;
+
+        logoPreview.innerHTML = `
+            <!-- 背景矩形 - 完全填充SVG区域 -->
+            <rect width="${width}" height="${height}" fill="${bgColorValue}"/>
+
+            <!-- 内容组 -->
+            <g>
+                <!-- 左侧方形 -->
+                <rect x="${squareX}" y="${squareY}" width="${squareSize}" height="${squareSize}" rx="10" fill="${squareBgColorValue}"/>
+                <text x="${textX}" y="${textY}" font-family="${squareFontValue}" font-size="${squareFontSizeValue}" fill="${squareColorValue}" text-anchor="middle" dominant-baseline="middle">${squareTextValue}</text>
+
+                <!-- 右侧副文本 -->
+                <text x="${secondaryTextX}" y="${secondaryTextY}" font-family="${secondaryFontValue}" font-size="${secondaryFontSizeValue}" fill="${secondaryColorValue}" text-anchor="left" dominant-baseline="middle">${secondaryTextValue}</text>
+            </g>
+        `;
+    }
 
     // 更新Logo尺寸
     function updateLogoSize() {
@@ -801,7 +1018,6 @@
         document.getElementById('custom-size').style.display= 'none';
         switch(size) {
             case 'small':
-
                 width = 128;
                 height = 128;
                 break;
@@ -832,12 +1048,12 @@
         const ctx = canvas.getContext('2d');
         const svgData = new XMLSerializer().serializeToString(logoPreview);
         const img = new Image();
-        
+
         img.onload = function() {
             canvas.width = logoPreview.width.baseVal.value;
             canvas.height = logoPreview.height.baseVal.value;
             ctx.drawImage(img, 0, 0);
-            
+
             const pngUrl = canvas.toDataURL('image/png');
             const downloadLink = document.createElement('a');
             downloadLink.href = pngUrl;
@@ -846,7 +1062,7 @@
             downloadLink.click();
             document.body.removeChild(downloadLink);
         };
-        
+
         img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
     }
 
@@ -855,7 +1071,7 @@
         const svgData = new XMLSerializer().serializeToString(logoPreview);
         const svgBlob = new Blob([svgData], {type: 'image/svg+xml'});
         const svgUrl = URL.createObjectURL(svgBlob);
-        
+
         const downloadLink = document.createElement('a');
         downloadLink.href = svgUrl;
         downloadLink.download = 'logo.svg';
