@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo生成器 - Favicon</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="/assets/css/common.css" rel="stylesheet">
+<link href="/assets/css/footer.css" rel="stylesheet">
+<style>
+ 
+.page-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--dark-color);
+}
+
+.page-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+
+/* 生成器容器 */
+.generator-container {
+    display: grid;
+    grid-template-columns: 38% 60%;
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .generator-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 控制面板 */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: visible;
+    max-height: none;
+    padding-right: 0;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.control-group input, .control-group select {
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.control-group input:focus, .control-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+/* 颜色选择器样式 */
+.color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hue-slider {
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to right, 
+        #ff0000, #ff8000, #ffff00, #80ff00, 
+        #00ff00, #00ff80, #00ffff, #0080ff, 
+        #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+    border-radius: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.hue-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #ddd;
+    cursor: pointer;
+}
+
+.lightness-slider {
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to right, 
+        #000000, #888888, #ffffff);
+    border-radius: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    margin-top: 5px;
+}
+
+.lightness-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #ddd;
+    cursor: pointer;
+}
+
+.color-preview-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.color-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-input input[type="text"] {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+}
+
+/* 字体大小滑块样式 */
+.font-size-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.font-size-slider {
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to right, #f0f0f0, #ddd);
+    border-radius: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+
+.font-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: 2px solid white;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.font-size-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.font-size-number {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+/* 尺寸自定义输入框 */
+.size-custom-inputs {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#logo-size:checked ~ .size-custom-inputs {
+    display: grid;
+}
+
+/* 预览区域 */
+.preview-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.preview-container {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    border: 1px solid #ced4da;
+    padding: 0; /* 移除内边距确保完全填充 */
+    overflow: hidden;
+}
+
+#logo-preview {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* 下载按钮 */
+.download-section {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.download-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.download-btn.secondary {
+    background-color: #6c757d;
+}
+
+.download-btn.secondary:hover {
+    background-color: #5a6268;
+}
+</style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="material-symbols-outlined logo-icon">
+				<!-- favorite_border -->
+				<img src="/assets/favicon-32x32.png"/></span>
+                Favicon工具箱
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" >首页</a></li>
+                <li><a href="text-to-favicon.html">文本生成</a></li>
+                <li><a href="image-to-favicon.html">图片转换</a></li>
+                <li><a href="emoji-to-favicon.html">表情符号</a></li>
+                <li><a href="tutorials.html">教程</a></li>
+				<li><a href="logo.html" class="active">Logo生成</a></li>
+            </ul>
+        </div>
+    </nav>
+	
+<div class="container">
+    <div class="page-header">
+        <h1>Logo生成器</h1>
+        <p>自定义设计您的专属Logo，支持多种格式下载</p>
+    </div>
+
+    <div class="tool-card">
+        <div class="generator-container">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="square-text">方形内文本</label>
+                    <input type="text" id="square-text" placeholder="输入方形内文本" value="F">
+                </div>
+
+                <div class="control-group">
+                    <label for="square-font">方形内字体</label>
+                    <select id="square-font">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Garamond">Garamond</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Brush Script MT">Brush Script MT</option>
+                        <option value="Inter" selected>Inter</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Poppins">Poppins</option>
+                        <option value="Playfair">Playfair</option>
+                        <option value="Lato">Lato</option>
+                    </select>
+                </div>
+
+                <!-- 新增方形内字体大小滑块 -->
+                <div class="control-group">
+                    <label>方形内字体大小</label>
+                    <div class="font-size-control">
+                        <input type="range" class="font-size-slider" id="square-font-size" min="10" max="150" value="60">
+                        <div class="font-size-value">
+                            <span>字体大小:</span>
+                            <span class="font-size-number" id="square-font-size-value">40px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>方形内文本颜色</label>
+                    <div class="color-picker" id="square-color-picker">
+                        <input type="range" class="hue-slider" id="square-color-hue" min="0" max="360" value="0">
+                        <input type="range" class="lightness-slider" id="square-color-lightness" min="0" max="100" value="100">
+                        <div class="color-preview-container">
+                            <div class="color-preview" id="square-color-preview" style="background-color: #3f3acc;"></div>
+                            <div class="color-input">
+                                <input type="text" id="square-color-input" value="#3f3acc">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>方形背景色</label>
+                    <div class="color-picker" id="square-bg-color-picker">
+                        <input type="range" class="hue-slider" id="square-bg-color-hue" min="0" max="360" value="180">
+                        <input type="range" class="lightness-slider" id="square-bg-color-lightness" min="0" max="100" value="50">
+                        <div class="color-preview-container">
+                            <div class="color-preview" id="square-bg-color-preview" style="background-color: #ffffff;"></div>
+                            <div class="color-input">
+                                <input type="text" id="square-bg-color-input" value="#ffffff">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="secondary-text">副文本</label>
+                    <input type="text" id="secondary-text" placeholder="输入副文本" value="small-rose.io">
+                </div>
+
+                <div class="control-group">
+                    <label for="secondary-font">副文本字体</label>
+                    <select id="secondary-font">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Garamond">Garamond</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Brush Script MT">Brush Script MT</option>
+                        <option value="Inter" selected>Inter</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Poppins">Poppins</option>
+                        <option value="Playfair">Playfair</option>
+                        <option value="Lato">Lato</option>
+                    </select>
+                </div>
+
+                <!-- 新增副文本字体大小滑块 -->
+                <div class="control-group">
+                    <label>副文本字体大小</label>
+                    <div class="font-size-control">
+                        <input type="range" class="font-size-slider" id="secondary-font-size" min="10" max="100" value="40">
+                        <div class="font-size-value">
+                            <span>字体大小:</span>
+                            <span class="font-size-number" id="secondary-font-size-value">40px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>副文本颜色</label>
+                    <div class="color-picker" id="secondary-color-picker">
+                        <input type="range" class="hue-slider" id="secondary-color-hue" min="0" max="360" value="0">
+                        <input type="range" class="lightness-slider" id="secondary-color-lightness" min="0" max="100" value="10">
+                        <div class="color-preview-container">
+                            <div class="color-preview" id="secondary-color-preview" style="background-color: #ffffff;"></div>
+                            <div class="color-input">
+                                <input type="text" id="secondary-color-input" value="#ffffff">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>整体背景色</label>
+                    <div class="color-picker" id="bg-color-picker">
+                        <input type="range" class="hue-slider" id="bg-color-hue" min="0" max="360" value="180">
+                        <input type="range" class="lightness-slider" id="bg-color-lightness" min="0" max="100" value="50">
+                        <div class="color-preview-container">
+                            <div class="color-preview" id="bg-color-preview" style="background-color: #3f3acc;"></div>
+                            <div class="color-input">
+                                <input type="text" id="bg-color-input" value="#3f3acc">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="logo-size">Logo尺寸</label>
+                    <select id="logo-size">
+                        <option value="small">小 (128×128)</option>
+                        <option value="medium" selected>中 (256×256)</option>
+                        <option value="large">大 (512×512)</option>
+                        <option value="custom">自定义</option>
+                    </select>
+                    <div class="size-custom-inputs">
+                        <input type="number" id="custom-width" placeholder="宽度" min="50" max="1000" value="256">
+                        <input type="number" id="custom-height" placeholder="高度" min="50" max="1000" value="256">
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <div class="preview-container">
+                    <svg id="logo-preview" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 内容将在JavaScript中动态生成 -->
+                    </svg>
+                </div>
+
+                <div class="download-section">
+                    <button class="download-btn" id="download-png">
+                        <span class="material-symbols-outlined">download</span> PNG文件
+                    </button>
+                    <button class="download-btn secondary" id="download-svg">
+                        <span class="material-symbols-outlined">download</span> SVG文件
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM元素
+    const squareText = document.getElementById('square-text');
+    const squareFont = document.getElementById('square-font');
+    const squareFontSize = document.getElementById('square-font-size');
+    const squareFontSizeValue = document.getElementById('square-font-size-value');
+    const squareColorHue = document.getElementById('square-color-hue');
+    const squareColorLightness = document.getElementById('square-color-lightness');
+    const squareColorPreview = document.getElementById('square-color-preview');
+    const squareColorInput = document.getElementById('square-color-input');
+    const squareBgColorHue = document.getElementById('square-bg-color-hue');
+    const squareBgColorLightness = document.getElementById('square-bg-color-lightness');
+    const squareBgColorPreview = document.getElementById('square-bg-color-preview');
+    const squareBgColorInput = document.getElementById('square-bg-color-input');
+    const secondaryText = document.getElementById('secondary-text');
+    const secondaryFont = document.getElementById('secondary-font');
+    const secondaryFontSize = document.getElementById('secondary-font-size');
+    const secondaryFontSizeValue = document.getElementById('secondary-font-size-value');
+    const secondaryColorHue = document.getElementById('secondary-color-hue');
+    const secondaryColorLightness = document.getElementById('secondary-color-lightness');
+    const secondaryColorPreview = document.getElementById('secondary-color-preview');
+    const secondaryColorInput = document.getElementById('secondary-color-input');
+    const bgColorHue = document.getElementById('bg-color-hue');
+    const bgColorLightness = document.getElementById('bg-color-lightness');
+    const bgColorPreview = document.getElementById('bg-color-preview');
+    const bgColorInput = document.getElementById('bg-color-input');
+    const logoSize = document.getElementById('logo-size');
+    const customWidth = document.getElementById('custom-width');
+    const customHeight = document.getElementById('custom-height');
+    const logoPreview = document.getElementById('logo-preview');
+    const downloadPngBtn = document.getElementById('download-png');
+    const downloadSvgBtn = document.getElementById('download-svg');
+    const previewContainer = document.querySelector('.preview-container');
+
+    // 初始化SVG尺寸
+    function initSvgSize() {
+        const width = previewContainer.clientWidth;
+        const height = previewContainer.clientHeight;
+        
+        // 设置SVG尺寸与预览区完全一致
+        logoPreview.setAttribute('width', width);
+        logoPreview.setAttribute('height', height);
+        logoPreview.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        
+        return { width, height };
+    }
+
+    // 初始化
+    function init() {
+        // 输入变化监听
+        squareText.addEventListener('input', updateLogo);
+        squareFont.addEventListener('change', updateLogo);
+        squareFontSize.addEventListener('input', updateSquareFontSize);
+        secondaryText.addEventListener('input', updateLogo);
+        secondaryFont.addEventListener('change', updateLogo);
+        secondaryFontSize.addEventListener('input', updateSecondaryFontSize);
+        logoSize.addEventListener('change', updateLogoSize);
+        customWidth.addEventListener('input', updateLogoSize);
+        customHeight.addEventListener('input', updateLogoSize);
+
+        // 颜色滑块监听
+        squareColorHue.addEventListener('input', updateSquareColor);
+        squareColorLightness.addEventListener('input', updateSquareColor);
+        squareBgColorHue.addEventListener('input', updateSquareBgColor);
+        squareBgColorLightness.addEventListener('input', updateSquareBgColor);
+        secondaryColorHue.addEventListener('input', updateSecondaryColor);
+        secondaryColorLightness.addEventListener('input', updateSecondaryColor);
+        bgColorHue.addEventListener('input', updateBgColor);
+        bgColorLightness.addEventListener('input', updateBgColor);
+
+        // 颜色输入框监听
+        squareColorInput.addEventListener('input', function() {
+            updateColorFromInput('square-color');
+        });
+        squareBgColorInput.addEventListener('input', function() {
+            updateColorFromInput('square-bg-color');
+        });
+        secondaryColorInput.addEventListener('input', function() {
+            updateColorFromInput('secondary-color');
+        });
+        bgColorInput.addEventListener('input', function() {
+            updateColorFromInput('bg-color');
+        });
+
+        // 下载按钮
+        downloadPngBtn.addEventListener('click', downloadPng);
+        downloadSvgBtn.addEventListener('click', downloadSvg);
+
+        // 窗口大小变化监听
+        window.addEventListener('resize', updateLogo);
+
+        // 初始更新
+        updateSquareFontSize();
+        updateSecondaryFontSize();
+        updateSquareColor();
+        updateSquareBgColor();
+        updateSecondaryColor();
+        updateBgColor();
+        updateLogo();
+    }
+
+    // 更新方形内字体大小
+    function updateSquareFontSize() {
+        const size = squareFontSize.value;
+        squareFontSizeValue.textContent = size + 'px';
+        updateLogo();
+    }
+
+    // 更新副文本字体大小
+    function updateSecondaryFontSize() {
+        const size = secondaryFontSize.value;
+        secondaryFontSizeValue.textContent = size + 'px';
+        updateLogo();
+    }
+
+    // 从输入框更新颜色
+    function updateColorFromInput(type) {
+        const inputElement = document.getElementById(`${type}-input`);
+        const colorValue = inputElement.value;
+        
+        if (/^#[0-9A-F]{6}$/i.test(colorValue)) {
+            // 将十六进制颜色转换为HSL
+            const hsl = hexToHsl(colorValue);
+            
+            // 更新滑块位置
+            document.getElementById(`${type}-hue`).value = hsl.h;
+            document.getElementById(`${type}-lightness`).value = hsl.l;
+            
+            // 更新预览
+            document.getElementById(`${type}-preview`).style.backgroundColor = colorValue;
+            
+            // 更新Logo
+            updateLogo();
+        }
+    }
+
+    // 十六进制转HSL
+    function hexToHsl(hex) {
+        // 移除#号
+        hex = hex.replace('#', '');
+        
+        // 转换为RGB
+        const r = parseInt(hex.substring(0, 2), 16) / 255;
+        const g = parseInt(hex.substring(2, 4), 16) / 255;
+        const b = parseInt(hex.substring(4, 6), 16) / 255;
+        
+        // 计算HSL
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        
+        if (max === min) {
+            h = s = 0; // 无色调
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            
+            h /= 6;
+        }
+        
+        return {
+            h: Math.round(h * 360),
+            s: Math.round(s * 100),
+            l: Math.round(l * 100)
+        };
+    }
+
+    // HSL转十六进制颜色
+    function hslToHex(h, s, l) {
+        h /= 360;
+        s = 1; // 固定饱和度
+        l /= 100;
+        
+        let r, g, b;
+        
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            };
+            
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            
+            r = hue2rgb(p, q, h + 1/3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1/3);
+        }
+        
+        const toHex = x => {
+            const hex = Math.round(x * 255).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        };
+        
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+    // 更新方形内文本颜色
+    function updateSquareColor() {
+        const hue = squareColorHue.value;
+        const lightness = squareColorLightness.value;
+        const hexColor = hslToHex(hue, 1, lightness);
+        squareColorPreview.style.backgroundColor = hexColor;
+        squareColorInput.value = hexColor;
+        updateLogo();
+    }
+
+    // 更新方形背景色
+    function updateSquareBgColor() {
+        const hue = squareBgColorHue.value;
+        const lightness = squareBgColorLightness.value;
+        const hexColor = hslToHex(hue, 1, lightness);
+        squareBgColorPreview.style.backgroundColor = hexColor;
+        squareBgColorInput.value = hexColor;
+        updateLogo();
+    }
+
+    // 更新副文本颜色
+    function updateSecondaryColor() {
+        const hue = secondaryColorHue.value;
+        const lightness = secondaryColorLightness.value;
+        const hexColor = hslToHex(hue, 1, lightness);
+        secondaryColorPreview.style.backgroundColor = hexColor;
+        secondaryColorInput.value = hexColor;
+        updateLogo();
+    }
+
+    // 更新背景颜色
+    function updateBgColor() {
+        const hue = bgColorHue.value;
+        const lightness = bgColorLightness.value;
+        const hexColor = hslToHex(hue, 1, lightness);
+        bgColorPreview.style.backgroundColor = hexColor;
+        bgColorInput.value = hexColor;
+        updateLogo();
+    }
+
+	// 更新Logo预览 - 动态计算居中位置
+	function updateLogo() {
+		const { width, height } = initSvgSize();
+		const squareTextValue = squareText.value || 'LOGO';
+		const squareFontValue = squareFont.value;
+		const squareFontSizeValue = squareFontSize.value;
+		const squareColorValue = squareColorInput.value;
+		const squareBgColorValue = squareBgColorInput.value;
+		const secondaryTextValue = secondaryText.value || 'Company Name';
+		const secondaryFontValue = secondaryFont.value;
+		const secondaryFontSizeValue = secondaryFontSize.value;
+		const secondaryColorValue = secondaryColorInput.value;
+		const bgColorValue = bgColorInput.value;
+
+		// 创建临时SVG元素用于测量文本宽度
+		const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		const tempText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+		tempText.setAttribute('font-family', secondaryFontValue);
+		tempText.setAttribute('font-size', secondaryFontSizeValue);
+		tempText.textContent = secondaryTextValue;
+		tempSvg.appendChild(tempText);
+		document.body.appendChild(tempSvg);
+		
+		// 获取副文本宽度
+		const secondaryTextBBox = tempText.getBBox();
+		const secondaryTextWidth = secondaryTextBBox.width;
+		document.body.removeChild(tempSvg);
+
+		// 计算方形尺寸
+		const squareSize = Math.min(width, height) * 0.35;
+		
+		// 计算总宽度（方形 + 间距 + 副文本宽度）
+		const spacing = width * 0.05; // 5%的间距
+		const totalWidth = squareSize + spacing + secondaryTextWidth;
+		
+		// 计算居中起始位置
+		const startX = (width - totalWidth) / 2;
+		
+		// 计算各元素位置
+		const squareX = startX;
+		const squareY = height * 0.3;
+		const textX = squareX + squareSize * 0.5;
+		const textY = squareY + squareSize * 0.6;
+		const secondaryTextX = squareX + squareSize + spacing;
+		const secondaryTextY = height * 0.5;
+
+		logoPreview.innerHTML = `
+			<!-- 背景矩形 - 完全填充SVG区域 -->
+			<rect width="${width}" height="${height}" fill="${bgColorValue}"/>
+			
+			<!-- 内容组 -->
+			<g>
+				<!-- 左侧方形 -->
+				<rect x="${squareX}" y="${squareY}" width="${squareSize}" height="${squareSize}" rx="10" fill="${squareBgColorValue}"/>
+				<text x="${textX}" y="${textY}" font-family="${squareFontValue}" font-size="${squareFontSizeValue}" fill="${squareColorValue}" text-anchor="middle" dominant-baseline="middle">${squareTextValue}</text>
+				
+				<!-- 右侧副文本 -->
+				<text x="${secondaryTextX}" y="${secondaryTextY}" font-family="${secondaryFontValue}" font-size="${secondaryFontSizeValue}" fill="${secondaryColorValue}" text-anchor="left" dominant-baseline="middle">${secondaryTextValue}</text>
+			</g>
+		`;
+	}
+    // 更新Logo预览 - 确保完全填充和居中
+    function updateLogo_old() {
+        const { width, height } = initSvgSize();
+        const squareTextValue = squareText.value || 'LOGO';
+        const squareFontValue = squareFont.value;
+        const squareFontSizeValue = squareFontSize.value;
+        const squareColorValue = squareColorInput.value;
+        const squareBgColorValue = squareBgColorInput.value;
+        const secondaryTextValue = secondaryText.value || 'small-rose.io';
+        const secondaryFontValue = secondaryFont.value;
+        const secondaryFontSizeValue = secondaryFontSize.value;
+        const secondaryColorValue = secondaryColorInput.value;
+        const bgColorValue = bgColorInput.value;
+
+        // 计算元素位置和大小（基于百分比）
+        const squareSize = Math.min(width, height) * 0.05;
+        const totalWidth = squareSize + width * 0.3; // 方形+间距
+        const startX = (width - totalWidth) / 2; // 居中起始位置
+        
+        const squareX = startX;
+        const squareY = height * 0.3;
+        const textX = squareX + squareSize * 0.5;
+        const textY = squareY + squareSize * 0.6;
+        const secondaryTextX = startX + squareSize + width * 0.05; // 方形右侧留5%间距
+        const secondaryTextY = height * 0.5;
+        
+        logoPreview.innerHTML = `
+            <!-- 背景矩形 - 完全填充SVG区域 -->
+            <rect width="${width}" height="${height}" fill="${bgColorValue}"/>
+            
+            <!-- 内容组 -->
+            <g>
+                <!-- 左侧方形 -->
+                <rect x="${squareX}" y="${squareY}" width="${squareSize}" height="${squareSize}" rx="10" fill="${squareBgColorValue}"/>
+                <text x="${textX}" y="${textY}" font-family="${squareFontValue}" font-size="${squareFontSizeValue}" fill="${squareColorValue}" text-anchor="middle" dominant-baseline="middle">${squareTextValue}</text>
+                
+                <!-- 右侧副文本 -->
+                <text x="${secondaryTextX}" y="${secondaryTextY}" font-family="${secondaryFontValue}" font-size="${secondaryFontSizeValue}" fill="${secondaryColorValue}" text-anchor="left" dominant-baseline="middle">${secondaryTextValue}</text>
+            </g>
+        `;
+    }
+
+    // 更新Logo尺寸
+    function updateLogoSize() {
+        const size = logoSize.value;
+        let width, height;
+
+        switch(size) {
+            case 'small':
+                width = 128;
+                height = 128;
+                break;
+            case 'medium':
+                width = 256;
+                height = 256;
+                break;
+            case 'large':
+                width = 512;
+                height = 512;
+                break;
+            case 'custom':
+                width = customWidth.value || 256;
+                height = customHeight.value || 256;
+                break;
+        }
+
+        logoPreview.setAttribute('width', width);
+        logoPreview.setAttribute('height', height);
+        logoPreview.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        updateLogo();
+    }
+
+    // 下载PNG
+    function downloadPng() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const svgData = new XMLSerializer().serializeToString(logoPreview);
+        const img = new Image();
+        
+        img.onload = function() {
+            canvas.width = logoPreview.width.baseVal.value;
+            canvas.height = logoPreview.height.baseVal.value;
+            ctx.drawImage(img, 0, 0);
+            
+            const pngUrl = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pngUrl;
+            downloadLink.download = 'logo.png';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        };
+        
+        img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+    }
+
+    // 下载SVG
+    function downloadSvg() {
+        const svgData = new XMLSerializer().serializeToString(logoPreview);
+        const svgBlob = new Blob([svgData], {type: 'image/svg+xml'});
+        const svgUrl = URL.createObjectURL(svgBlob);
+        
+        const downloadLink = document.createElement('a');
+        downloadLink.href = svgUrl;
+        downloadLink.download = 'logo.svg';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    // 初始化应用
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

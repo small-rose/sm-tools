@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="GBK">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>?Favicon - Favicon</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<style>
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --accent-color: #4cc9f0;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --success-color: #4bb543;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Microsoft YaHei', sans-serif;
+}
+
+body {
+    background-color: #f5f7fb;
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 15px 0;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.nav-links a:hover, .nav-links a.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark-color);
+}
+
+.page-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.tool-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.tool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.tool-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.generator-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .generator-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.control-group input, .control-group select {
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.control-group input:focus, .control-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+.shape-options {
+    display: flex;
+    gap: 10px;
+}
+
+.shape-option {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.shape-option.active {
+    border-color: var(--primary-color);
+    background-color: rgba(67, 97, 238, 0.1);
+}
+
+.color-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.color-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.color-preset-label {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.color-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 8px;
+    border: 0px solid #e9ecef;
+    border-radius: var(--border-radius);
+}
+
+@media (max-width: 768px) {
+    .color-preset-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .color-preset-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.color-preset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 4px;
+    border-radius: var(--border-radius);
+    border: 2px solid transparent;
+}
+
+.color-preset:hover {
+    transform: scale(1.05);
+    background-color: #f8f9fa;
+}
+
+.color-preset.active {
+    border-color: var(--primary-color);
+    background-color: rgba(67, 97, 238, 0.1);
+}
+
+.color-preset .color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: calc(var(--border-radius) - 2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.color-preset .color-name {
+    font-size: 0.65rem;
+    color: #6c757d;
+    text-align: center;
+    line-height: 1.2;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.custom-colors {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.custom-color-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.custom-color-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.color-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-preview-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #e9ecef;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.color-hex-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    font-family: monospace;
+}
+
+.color-hex-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+.color-slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-slider-container {
+    flex: 1;
+    position: relative;
+}
+
+.color-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(to right, 
+        #ff0000, #ff7f00, #ffff00, #7fff00, 
+        #00ff00, #00ff7f, #00ffff, #007fff, 
+        #0000ff, #7f00ff, #ff00ff, #ff007f, #ff0000);
+    outline: none;
+    border: 2px solid white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.color-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #333;
+    cursor: pointer;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.color-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #333;
+    cursor: pointer;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.color-value {
+    width: 60px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.preview-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.preview-container {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    border: 1px dashed #ced4da;
+    padding: 20px;
+}
+
+.preview-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 50%;
+    font-size: 5rem;
+    color: #333;
+    background-color: #e9ecef;
+}
+
+.preview-icon.square {
+    border-radius: 10px;
+}
+
+.preview-icon.rounded {
+    border-radius: 25px;
+}
+
+.size-previews {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.size-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.size-preview .preview {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.size-preview span {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.download-section {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    flex: 1;
+}
+
+ 
+
+.download-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.download-btn.secondary {
+    background-color: var(--primary-color);
+}
+
+.download-btn.secondary:hover {
+    background-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .download-section {
+        flex-direction: column;
+    }
+    
+    .download-btn:first-child,
+    .download-btn:last-child {
+        margin: 0;
+    }
+}
+
+.code-section{
+	margin-top: 20px;
+}
+.code-snippet {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.use-section{
+	padding: 1px;
+}
+
+
+.use-section ul{
+	list-style: disc outside;
+	margin-left: 15px;
+	margin-top:8px;	
+	margin-bottom:8px;
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+<div class="nav-container">
+<div class="logo">
+<span class="material-symbols-outlined logo-icon">
+favorite_border
+</span>
+Favicon工具箱
+</div>
+<ul class="nav-links">
+<li><a href="index.html">首页</a></li>
+<li><a href="text-to-favicon.html" class="active">文本转图标</a></li>
+<li><a href="image-to-favicon.html">图片转图标</a></li>
+<li><a href="emoji-to-favicon.html">表情转图标</a></li>
+<li><a href="tutorials.html">教程</a></li>
+</ul>
+</div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <h1>文本转Favicon</h1>
+        <p>使用文本创建个性化网站图标，支持自定义字体、颜色和形状</p>
+    </div>
+
+    <div class="tool-card">
+        <div class="tool-header">
+            <div class="tool-title">图标生成器</div>
+        </div>
+
+        <div class="generator-container">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="text-input">图标文本 (1-2字符)</label>
+                    <input type="text" id="text-input" maxlength="2" value="T" placeholder="1-2字符">
+                </div>
+
+                <div class="control-group">
+                    <label>形状</label>
+                    <div class="shape-options">
+                        <div class="shape-option active" data-shape="circle">圆形</div>
+                        <div class="shape-option" data-shape="rounded">圆角</div>
+                        <div class="shape-option" data-shape="square">方形</div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="font-select">字体</label>
+                    <select id="font-select">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                        <option value="'Courier New', Courier, monospace">Courier New</option>
+                        <option value="Verdana, Geneva, sans-serif" selected>Verdana</option>
+                        <option value="Tahoma, Geneva, sans-serif">Tahoma</option>
+                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="font-size">字体大小</label>
+                    <input type="range" id="font-size" min="1" max="15" value="6">
+                    <div class="range-value" id="font-size-value">6</div>
+                </div>
+
+                <div class="control-group">
+                    <label>颜色</label>
+                    <div class="color-settings">
+                        <div class="color-presets">
+                            <div class="color-preset-label">预设颜色</div>
+                            <div class="color-preset-grid" id="color-preset-grid">
+                                <!-- 颜色预设将通过JavaScript动态生成 -->
+                            </div>
+                        </div>
+                        
+                        <div class="custom-colors">
+                            <div class="color-preset-label">自定义颜色</div>
+                            
+                            <div class="custom-color-group">
+                                <div class="custom-color-label">文本颜色</div>
+                                <div class="color-slider-wrapper">
+                                    <div class="color-slider-container">
+                                        <input type="range" class="color-slider" id="text-color-slider" min="0" max="360" value="0">
+                                    </div>
+                                    <div class="color-value" id="text-color-value">#FF0000</div>
+                                </div>
+                                <div class="color-input-wrapper">
+                                    <div class="color-preview-circle" id="text-color-preview" style="background-color: #FF0000;"></div>
+                                    <input type="text" class="color-hex-input" id="text-color-input" value="#FF0000" maxlength="7">
+                                </div>
+                            </div>
+                            
+                            <div class="custom-color-group">
+                                <div class="custom-color-label">背景颜色</div>
+                                <div class="color-slider-wrapper">
+                                    <div class="color-slider-container">
+                                        <input type="range" class="color-slider" id="bg-color-slider" min="0" max="360" value="200">
+                                    </div>
+                                    <div class="color-value" id="bg-color-value">#4CC9F0</div>
+                                </div>
+                                <div class="color-input-wrapper">
+                                    <div class="color-preview-circle" id="bg-color-preview" style="background-color: #4CC9F0;"></div>
+                                    <input type="text" class="color-hex-input" id="bg-color-input" value="#4CC9F0" maxlength="7">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="transparent-bg">
+                        <input type="checkbox" id="transparent-bg"> 透明背景
+                    </label>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <div class="preview-container">
+                    <div class="preview-icon circle" id="preview-icon">T</div>
+                </div>
+
+                <div class="size-previews">
+                    <div class="size-preview">
+                        <div class="preview" id="preview-16x16"></div>
+                        <span>16x16</span>
+                    </div>
+                    <div class="size-preview">
+                        <div class="preview" id="preview-32x32"></div>
+                        <span>32x32</span>
+                    </div>
+                    <div class="size-preview">
+                        <div class="preview" id="preview-64x64"></div>
+                        <span>64x64</span>
+                    </div>
+                    <div class="size-preview">
+                        <div class="preview" id="preview-128x128"></div>
+                        <span>128x128</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <button class="download-btn" id="download-ico">
+                <span class="material-symbols-outlined">download</span> ICO文件
+            </button>
+            <button class="download-btn secondary" id="download-png">
+                <span class="material-symbols-outlined">download</span> PNG文件
+            </button>
+            <button class="download-btn secondary" id="download-svg">
+                <span class="material-symbols-outlined">download</span> SVG文件
+            </button>
+		</div>	
+	</div>	
+	<div class="tool-card">	
+		<div class="code-section">
+			<div class="tool-header">
+            <div class="tool-title">安装</div>
+        </div>
+		<div class="use-section">
+			<p>首先，使用下载按钮下载需要的文件。将文件放置在您网站的根目录中。</p>
+			<ul>
+				<li><label>android-chrome-192x192.png</label></li>
+				<li><label>android-chrome-512x512.png</label></li>
+				<li><label>apple-touch-icon.png</label></li>
+				<li><label>favicon-16x16.png</label></li>
+				<li><label>favicon-32x32.png</label></li>
+			</ul>
+			
+
+			<p>接下来，复制以下链接标签并将其粘贴到 head您的 HTML 代码中。 </p>
+		</div>
+            <div class="code-snippet">
+                &lt;!-- 将以下代码添加到HTML文件的head部分 --&gt;<br>
+                &lt;link rel="icon" type="image/svg+xml" href="/favicon.svg"&gt;<br>
+                &lt;link rel="icon" type="image/x-icon" href="/favicon.ico"&gt;<br>
+                &lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;<br>
+                &lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;<br>
+                &lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM元素引用
+    const textInput = document.getElementById('text-input');
+    const shapeOptions = document.querySelectorAll('.shape-option');
+    const fontSelect = document.getElementById('font-select');
+    const fontSizeSlider = document.getElementById('font-size');
+    const fontSizeValue = document.getElementById('font-size-value');
+    const textColorPreview = document.getElementById('text-color-preview');
+    const textColorInput = document.getElementById('text-color-input');
+    const textColorSlider = document.getElementById('text-color-slider');
+    const textColorValue = document.getElementById('text-color-value');
+    const bgColorPreview = document.getElementById('bg-color-preview');
+    const bgColorInput = document.getElementById('bg-color-input');
+    const bgColorSlider = document.getElementById('bg-color-slider');
+    const bgColorValue = document.getElementById('bg-color-value');
+    const transparentBg = document.getElementById('transparent-bg');
+    const previewIcon = document.getElementById('preview-icon');
+    const colorPresetGrid = document.getElementById('color-preset-grid');
+    const downloadIcoBtn = document.getElementById('download-ico');
+    const downloadPngBtn = document.getElementById('download-png');
+    const downloadSvgBtn = document.getElementById('download-svg');
+
+    // 预览尺寸元素
+    const preview16x16 = document.getElementById('preview-16x16');
+    const preview32x32 = document.getElementById('preview-32x32');
+    const preview64x64 = document.getElementById('preview-64x64');
+    const preview128x128 = document.getElementById('preview-128x128');
+
+    // 当前设置
+    let currentSettings = {
+        text: 'T',
+        shape: 'circle',
+        font: 'Verdana, Geneva, sans-serif',
+        fontSize: 6,
+        textColor: '#FF0000',
+        bgColor: '#4CC9F0',
+        transparentBg: false
+    };
+
+    // 参考favicon.io的预设颜色
+    const colorPresets = [
+        { name: '经典蓝', textColor: '#ffffff', bgColor: '#4361ee' },
+        { name: '深色现代', textColor: '#ffffff', bgColor: '#212529' },
+        { name: '粉色', textColor: '#ffffff', bgColor: '#f72585' },
+        { name: '绿色', textColor: '#ffffff', bgColor: '#4bb543' },
+        { name: '紫色', textColor: '#ffffff', bgColor: '#7209b7' },
+        { name: '灰色', textColor: '#ffffff', bgColor: '#6c757d' },
+        { name: '渐变', textColor: '#ffffff', bgColor: 'linear-gradient(135deg, #4361ee, #3a0ca3)' },
+        { name: '白底黑字', textColor: '#000000', bgColor: '#ffffff' },
+        { name: '天蓝', textColor: '#ffffff', bgColor: '#3a86ff' },
+        { name: '淡粉', textColor: '#333333', bgColor: '#ffafcc' },
+        { name: '青绿', textColor: '#ffffff', bgColor: '#2a9d8f' },
+        { name: '深灰', textColor: '#ffffff', bgColor: '#495057' }
+    ];
+
+    // 初始化
+    function init() {
+        // 生成颜色预设
+        generateColorPresets();
+        
+        // 事件监听
+        textInput.addEventListener('input', updatePreview);
+        
+        shapeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                shapeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                currentSettings.shape = option.dataset.shape;
+                updatePreview();
+            });
+        });
+        
+        fontSelect.addEventListener('change', updatePreview);
+        
+        fontSizeSlider.addEventListener('input', () => {
+            fontSizeValue.textContent = fontSizeSlider.value;
+            currentSettings.fontSize = parseInt(fontSizeSlider.value);
+            updatePreview();
+        });
+        
+        // 文本颜色滑块事件
+        textColorSlider.addEventListener('input', () => {
+            const hue = parseInt(textColorSlider.value);
+            const hexColor = hslToHex(hue, 100, 50);
+            updateTextColor(hexColor);
+        });
+        
+        // 背景颜色滑块事件
+        bgColorSlider.addEventListener('input', () => {
+            const hue = parseInt(bgColorSlider.value);
+            const hexColor = hslToHex(hue, 100, 50);
+            updateBgColor(hexColor);
+        });
+        
+        // 颜色输入框事件
+        textColorInput.addEventListener('input', handleTextColorInput);
+        textColorInput.addEventListener('change', handleTextColorInput);
+        
+        bgColorInput.addEventListener('input', handleBgColorInput);
+        bgColorInput.addEventListener('change', handleBgColorInput);
+        
+        transparentBg.addEventListener('change', updatePreview);
+        
+        // 下载按钮事件
+        downloadIcoBtn.addEventListener('click', downloadIco);
+        downloadPngBtn.addEventListener('click', downloadPng);
+        downloadSvgBtn.addEventListener('click', downloadSvg);
+        
+        // 初始预览
+        updatePreview();
+    }
+
+    // HSL转换为十六进制颜色
+    function hslToHex(h, s, l) {
+        h = h % 360;
+        s = Math.max(0, Math.min(100, s));
+        l = Math.max(0, Math.min(100, l));
+        
+        s /= 100;
+        l /= 100;
+        
+        const c = (1 - Math.abs(2 * l - 1)) * s;
+        const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        const m = l - c / 2;
+        
+        let r, g, b;
+        
+        if (h >= 0 && h < 60) {
+            r = c; g = x; b = 0;
+        } else if (h >= 60 && h < 120) {
+            r = x; g = c; b = 0;
+        } else if (h >= 120 && h < 180) {
+            r = 0; g = c; b = x;
+        } else if (h >= 180 && h < 240) {
+            r = 0; g = x; b = c;
+        } else if (h >= 240 && h < 300) {
+            r = x; g = 0; b = c;
+        } else {
+            r = c; g = 0; b = x;
+        }
+        
+        r = Math.round((r + m) * 255);
+        g = Math.round((g + m) * 255);
+        b = Math.round((b + m) * 255);
+        
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
+    }
+
+    // 十六进制转换为HSL
+    function hexToHsl(hex) {
+        // 移除#
+        hex = hex.replace(/^#/, '');
+        
+        // 3位扩展为6位
+        if (hex.length === 3) {
+            hex = hex.split('').map(c => c + c).join('');
+        }
+        
+        // 获取RGB值
+        const r = parseInt(hex.substring(0, 2), 16) / 255;
+        const g = parseInt(hex.substring(2, 4), 16) / 255;
+        const b = parseInt(hex.substring(4, 6), 16) / 255;
+        
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        
+        let h, s, l = (max + min) / 2;
+        
+        if (max === min) {
+            h = s = 0; // 无色
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            
+            h /= 6;
+        }
+        
+        h = Math.round(h * 360);
+        s = Math.round(s * 100);
+        l = Math.round(l * 100);
+        
+        return { h, s, l };
+    }
+
+    // 生成颜色预设
+    function generateColorPresets() {
+        colorPresetGrid.innerHTML = '';
+        
+        colorPresets.forEach((preset, index) => {
+            const presetElement = document.createElement('div');
+            presetElement.className = 'color-preset';
+            presetElement.dataset.index = index;
+            
+            const colorPreview = document.createElement('div');
+            colorPreview.className = 'color-preview';
+            
+            // 设置背景
+            if (preset.bgColor.includes('gradient')) {
+                colorPreview.style.background = preset.bgColor;
+            } else {
+                colorPreview.style.backgroundColor = preset.bgColor;
+            }
+            
+            // 在颜色预览中显示文本颜色
+            const textSample = document.createElement('div');
+            textSample.textContent = 'A';
+            textSample.style.color = preset.textColor;
+            textSample.style.fontSize = '1.2rem';
+            textSample.style.fontWeight = 'bold';
+            
+            colorPreview.appendChild(textSample);
+            presetElement.appendChild(colorPreview);
+            
+            const colorName = document.createElement('div');
+            colorName.className = 'color-name';
+            colorName.textContent = preset.name;
+            presetElement.appendChild(colorName);
+            
+            presetElement.addEventListener('click', () => {
+                // 移除所有预设的active
+                document.querySelectorAll('.color-preset').forEach(p => p.classList.remove('active'));
+                // 添加当前预设的active
+                presetElement.classList.add('active');
+                
+                // 应用预设颜色
+                updateTextColor(preset.textColor);
+                updateBgColor(preset.bgColor);
+                
+                // 更新预览
+                updatePreview();
+            });
+            
+            colorPresetGrid.appendChild(presetElement);
+        });
+    }
+
+    // 更新文本颜色
+    function updateTextColor(hexColor) {
+        // 验证颜色格式
+        if (!/^#[0-9A-F]{6}$/i.test(hexColor)) {
+            return;
+        }
+        
+        const hsl = hexToHsl(hexColor);
+        
+        // 更新滑块
+        textColorSlider.value = hsl.h;
+        
+        // 颜色预览
+        textColorPreview.style.backgroundColor = hexColor;
+        
+        // 更新输入框
+        textColorInput.value = hexColor.toUpperCase();
+        
+        // 颜色值显示
+        textColorValue.textContent = hexColor.toUpperCase();
+        
+        // 更新当前设置
+        currentSettings.textColor = hexColor;
+        
+        // 移除预设active状态
+        document.querySelectorAll('.color-preset').forEach(p => p.classList.remove('active'));
+        
+        // 更新预览
+        updatePreview();
+    }
+
+    // 更新背景颜色
+    function updateBgColor(hexColor) {
+        // 验证颜色格式
+        if (!/^#[0-9A-F]{6}$/i.test(hexColor)) {
+            return;
+        }
+        
+        const hsl = hexToHsl(hexColor);
+        
+        // 更新滑块
+        bgColorSlider.value = hsl.h;
+        
+        // 颜色预览
+        bgColorPreview.style.backgroundColor = hexColor;
+        
+        // 更新输入框
+        bgColorInput.value = hexColor.toUpperCase();
+        
+        // 颜色值显示
+        bgColorValue.textContent = hexColor.toUpperCase();
+        
+        // 更新当前设置
+        currentSettings.bgColor = hexColor;
+        
+        // 移除预设active状态
+        document.querySelectorAll('.color-preset').forEach(p => p.classList.remove('active'));
+        
+        // 更新预览
+        updatePreview();
+    }
+
+    // 处理文本颜色输入
+    function handleTextColorInput() {
+        let color = textColorInput.value;
+        
+        // 确保颜色以#开头
+        if (!color.startsWith('#')) {
+            color = '#' + color;
+            textColorInput.value = color;
+        }
+        
+        // 验证颜色格式
+        if (/^#[0-9A-F]{6}$/i.test(color) || /^#[0-9A-F]{3}$/i.test(color)) {
+            updateTextColor(color);
+        }
+    }
+
+    // 处理背景颜色输入
+    function handleBgColorInput() {
+        let color = bgColorInput.value;
+        
+        // 确保颜色以#开头
+        if (!color.startsWith('#')) {
+            color = '#' + color;
+            bgColorInput.value = color;
+        }
+        
+        // 验证颜色格式
+        if (/^#[0-9A-F]{6}$/i.test(color) || /^#[0-9A-F]{3}$/i.test(color)) {
+            updateBgColor(color);
+        }
+    }
+
+    // 更新预览
+    function updatePreview() {
+        // 更新当前设置
+        currentSettings.text = textInput.value || 'T';
+        currentSettings.font = fontSelect.value;
+        currentSettings.transparentBg = transparentBg.checked;
+
+        // 更新预览图标
+        previewIcon.textContent = currentSettings.text;
+        previewIcon.style.fontFamily = currentSettings.font;
+        previewIcon.style.fontSize = `${currentSettings.fontSize}rem`;
+        previewIcon.style.color = currentSettings.textColor;
+        
+        if (currentSettings.transparentBg) {
+            previewIcon.style.backgroundColor = 'transparent';
+        } else {
+            previewIcon.style.backgroundColor = currentSettings.bgColor;
+        }
+        
+        // 更新形状
+        previewIcon.className = 'preview-icon';
+        previewIcon.classList.add(currentSettings.shape);
+
+        // 更新尺寸预览
+        updateSizePreviews();
+    }
+
+    // 更新尺寸预览
+    function updateSizePreviews() {
+        const sizes = [
+            { element: preview16x16, size: 16 },
+            { element: preview32x32, size: 32 },
+            { element: preview64x64, size: 64 },
+            { element: preview128x128, size: 128 }
+        ];
+
+        sizes.forEach(item => {
+            item.element.textContent = currentSettings.text;
+            item.element.style.fontFamily = currentSettings.font;
+            item.element.style.color = currentSettings.textColor;
+            
+            if (currentSettings.transparentBg) {
+                item.element.style.backgroundColor = 'transparent';
+            } else {
+                item.element.style.backgroundColor = currentSettings.bgColor;
+            }
+            
+            // 根据形状设置边框半径
+            if (currentSettings.shape === 'circle') {
+                item.element.style.borderRadius = '50%';
+            } else if (currentSettings.shape === 'rounded') {
+                item.element.style.borderRadius = '25%';
+            } else {
+                item.element.style.borderRadius = '0';
+            }
+        });
+    }
+
+    // 修复后的generateSVG函数
+	function generateSVG() {
+		const { text, shape, font, fontSize, textColor, bgColor, transparentBg } = currentSettings;
+		
+		// SVG尺寸
+		const size = 512;
+		
+		// 背景元素
+		let backgroundElement = '';
+		if (!transparentBg) {
+			if (shape === 'circle') {
+				backgroundElement = `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="${bgColor}"/>`;
+			} else if (shape === 'rounded') {
+				const radius = size * 0.25;
+				backgroundElement = `<rect x="0" y="0" width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="${bgColor}"/>`;
+			} else {
+				backgroundElement = `<rect x="0" y="0" width="${size}" height="${size}" fill="${bgColor}"/>`;
+			}
+		}
+		
+		// 字体大小计算
+		const fontSizeValue = size * 0.6 * (fontSize / 6);
+		
+		// 字体家族处理
+		const fontFamily = font.replace(/'/g, '"');
+		
+		// 转义文本中的特殊字符
+		const escapedText = text
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&apos;');
+		
+		// 修复文字居中问题 - 关键修改部分
+		const textElement = `
+		<text 
+			x="50%" 
+			y="50%" 
+			font-family="${fontFamily}" 
+			font-size="${fontSizeValue}" 
+			fill="${textColor}" 
+			text-anchor="middle" 
+			dominant-baseline="middle"
+			alignment-baseline="middle"
+		>
+			${escapedText}
+		</text>`;
+		
+		// SVG内容
+		const svgContent = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
+	${backgroundElement}
+	${textElement}
+	</svg>`;
+
+		return svgContent;
+	}
+
+    // 生成Canvas图像
+    function generateCanvasImage(size) {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        // 绘制背景
+        if (currentSettings.transparentBg) {
+            ctx.clearRect(0, 0, size, size);
+        } else {
+            ctx.fillStyle = currentSettings.bgColor;
+            if (currentSettings.shape === 'circle') {
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (currentSettings.shape === 'rounded') {
+                const radius = size * 0.25;
+                ctx.beginPath();
+                ctx.moveTo(radius, 0);
+                ctx.lineTo(size - radius, 0);
+                ctx.quadraticCurveTo(size, 0, size, radius);
+                ctx.lineTo(size, size - radius);
+                ctx.quadraticCurveTo(size, size, size - radius, size);
+                ctx.lineTo(radius, size);
+                ctx.quadraticCurveTo(0, size, 0, size - radius);
+                ctx.lineTo(0, radius);
+                ctx.quadraticCurveTo(0, 0, radius, 0);
+                ctx.closePath();
+                ctx.fill();
+            } else {
+                ctx.fillRect(0, 0, size, size);
+            }
+        }
+
+        // 绘制文本
+        ctx.fillStyle = currentSettings.textColor;
+        ctx.font = `bold ${size * 0.6}px ${currentSettings.font}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(currentSettings.text, size/2, size/2);
+
+        return canvas;
+    }
+
+    // 下载ICO文件
+    function downloadIco() {
+        const sizes = [16, 32, 48, 64];
+        const canvases = sizes.map(size => generateCanvasImage(size));
+
+        const canvas = canvases[0];
+        canvas.toBlob(blob => {
+            saveAs(blob, 'favicon.ico');
+        });
+    }
+
+    // 下载PNG文件
+    function downloadPng() {
+        const sizes = [
+            { name: 'favicon-16x16.png', size: 16 },
+            { name: 'favicon-32x32.png', size: 32 },
+            { name: 'apple-touch-icon.png', size: 180 },
+            { name: 'android-chrome-192x192.png', size: 192 },
+            { name: 'android-chrome-512x512.png', size: 512 }
+        ];
+
+        const zip = new JSZip();
+
+        sizes.forEach(item => {
+            const canvas = generateCanvasImage(item.size);
+            canvas.toBlob(blob => {
+                zip.file(item.name, blob);
+                
+                if (Object.keys(zip.files).length === sizes.length) {
+                    zip.generateAsync({type: 'blob'}).then(content => {
+                        saveAs(content, 'favicons.zip');
+                    });
+                }
+            });
+        });
+    }
+
+    // 下载SVG文件 - 修复版本
+    function downloadSvg() {
+        const svgString = generateSVG();
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
+        saveAs(blob, 'favicon.svg');
+    }
+
+    // 初始化应用
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
