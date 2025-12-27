@@ -344,7 +344,7 @@
                 <div class="control-group">
                     <label>方形内字体大小</label>
                     <div class="font-size-control">
-                        <input type="range" class="font-size-slider" id="square-font-size" min="10" max="150" value="60">
+                        <input type="range" class="font-size-slider" id="square-font-size" min="50" max="200" value="90">
                         <div class="font-size-value">
                             <span>字体大小:</span>
                             <span class="font-size-number" id="square-font-size-value">40px</span>
@@ -355,8 +355,8 @@
                 <div class="control-group">
                     <label>方形内文本颜色</label>
                     <div class="color-picker" id="square-color-picker">
-                        <input type="range" class="hue-slider" id="square-color-hue" min="0" max="360" value="0">
-                        <input type="range" class="lightness-slider" id="square-color-lightness" min="0" max="100" value="100">
+                        <input type="range" class="hue-slider" id="square-color-hue" min="0" max="360" value="242">
+                        <input type="range" class="lightness-slider" id="square-color-lightness" min="0" max="100" value="52">
                         <div class="color-preview-container">
                             <div class="color-preview" id="square-color-preview" style="background-color: #3f3acc;"></div>
                             <div class="color-input">
@@ -369,8 +369,8 @@
                 <div class="control-group">
                     <label>方形背景色</label>
                     <div class="color-picker" id="square-bg-color-picker">
-                        <input type="range" class="hue-slider" id="square-bg-color-hue" min="0" max="360" value="180">
-                        <input type="range" class="lightness-slider" id="square-bg-color-lightness" min="0" max="100" value="50">
+                        <input type="range" class="hue-slider" id="square-bg-color-hue" min="0" max="360" value="0">
+                        <input type="range" class="lightness-slider" id="square-bg-color-lightness" min="0" max="100" value="100">
                         <div class="color-preview-container">
                             <div class="color-preview" id="square-bg-color-preview" style="background-color: #ffffff;"></div>
                             <div class="color-input">
@@ -423,7 +423,7 @@
                     <label>副文本颜色</label>
                     <div class="color-picker" id="secondary-color-picker">
                         <input type="range" class="hue-slider" id="secondary-color-hue" min="0" max="360" value="0">
-                        <input type="range" class="lightness-slider" id="secondary-color-lightness" min="0" max="100" value="10">
+                        <input type="range" class="lightness-slider" id="secondary-color-lightness" min="0" max="100" value="100">
                         <div class="color-preview-container">
                             <div class="color-preview" id="secondary-color-preview" style="background-color: #ffffff;"></div>
                             <div class="color-input">
@@ -436,12 +436,12 @@
                 <div class="control-group">
                     <label>整体背景色</label>
                     <div class="color-picker" id="bg-color-picker">
-                        <input type="range" class="hue-slider" id="bg-color-hue" min="0" max="360" value="180">
-                        <input type="range" class="lightness-slider" id="bg-color-lightness" min="0" max="100" value="50">
+                        <input type="range" class="hue-slider" id="bg-color-hue" min="0" max="360" value="242">
+                        <input type="range" class="lightness-slider" id="bg-color-lightness" min="0" max="100" value="52">
                         <div class="color-preview-container">
-                            <div class="color-preview" id="bg-color-preview" style="background-color: #3f3acc;"></div>
+                            <div class="color-preview" id="bg-color-preview" style="background-color: #3f37c9;"></div>
                             <div class="color-input">
-                                <input type="text" id="bg-color-input" value="#3f3acc">
+                                <input type="text" id="bg-color-input" value="#3f37c9">
                             </div>
                         </div>
                     </div>
@@ -455,7 +455,7 @@
                         <option value="large">大 (512×512)</option>
                         <option value="custom">自定义</option>
                     </select>
-                    <div class="size-custom-inputs">
+                    <div id="custom-size" class="size-custom-inputs">
                         <input type="number" id="custom-width" placeholder="宽度" min="50" max="1000" value="256">
                         <input type="number" id="custom-height" placeholder="高度" min="50" max="1000" value="256">
                     </div>
@@ -609,7 +609,7 @@
             // 更新滑块位置
             document.getElementById(`${type}-hue`).value = hsl.h;
             document.getElementById(`${type}-lightness`).value = hsl.l;
-            
+            console.log('h',hsl.h, 'l',hsl.l);
             // 更新预览
             document.getElementById(`${type}-preview`).style.backgroundColor = colorValue;
             
@@ -792,55 +792,16 @@
 			</g>
 		`;
 	}
-    // 更新Logo预览 - 确保完全填充和居中
-    function updateLogo_old() {
-        const { width, height } = initSvgSize();
-        const squareTextValue = squareText.value || 'LOGO';
-        const squareFontValue = squareFont.value;
-        const squareFontSizeValue = squareFontSize.value;
-        const squareColorValue = squareColorInput.value;
-        const squareBgColorValue = squareBgColorInput.value;
-        const secondaryTextValue = secondaryText.value || 'small-rose.io';
-        const secondaryFontValue = secondaryFont.value;
-        const secondaryFontSizeValue = secondaryFontSize.value;
-        const secondaryColorValue = secondaryColorInput.value;
-        const bgColorValue = bgColorInput.value;
 
-        // 计算元素位置和大小（基于百分比）
-        const squareSize = Math.min(width, height) * 0.05;
-        const totalWidth = squareSize + width * 0.3; // 方形+间距
-        const startX = (width - totalWidth) / 2; // 居中起始位置
-        
-        const squareX = startX;
-        const squareY = height * 0.3;
-        const textX = squareX + squareSize * 0.5;
-        const textY = squareY + squareSize * 0.6;
-        const secondaryTextX = startX + squareSize + width * 0.05; // 方形右侧留5%间距
-        const secondaryTextY = height * 0.5;
-        
-        logoPreview.innerHTML = `
-            <!-- 背景矩形 - 完全填充SVG区域 -->
-            <rect width="${width}" height="${height}" fill="${bgColorValue}"/>
-            
-            <!-- 内容组 -->
-            <g>
-                <!-- 左侧方形 -->
-                <rect x="${squareX}" y="${squareY}" width="${squareSize}" height="${squareSize}" rx="10" fill="${squareBgColorValue}"/>
-                <text x="${textX}" y="${textY}" font-family="${squareFontValue}" font-size="${squareFontSizeValue}" fill="${squareColorValue}" text-anchor="middle" dominant-baseline="middle">${squareTextValue}</text>
-                
-                <!-- 右侧副文本 -->
-                <text x="${secondaryTextX}" y="${secondaryTextY}" font-family="${secondaryFontValue}" font-size="${secondaryFontSizeValue}" fill="${secondaryColorValue}" text-anchor="left" dominant-baseline="middle">${secondaryTextValue}</text>
-            </g>
-        `;
-    }
 
     // 更新Logo尺寸
     function updateLogoSize() {
         const size = logoSize.value;
         let width, height;
-
+        document.getElementById('custom-size').style.display= 'none';
         switch(size) {
             case 'small':
+
                 width = 128;
                 height = 128;
                 break;
@@ -853,6 +814,7 @@
                 height = 512;
                 break;
             case 'custom':
+                document.getElementById('custom-size').style.display= 'flex';
                 width = customWidth.value || 256;
                 height = customHeight.value || 256;
                 break;
