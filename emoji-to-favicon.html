@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>表情符号生成Favicon - Favicon工具箱</title>
-	<!-- 将以下代码添加到您的HTML文件中 -->
-	<link rel="icon" type="image/x-icon" href="/favicon.svg">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon.svg">
-	<link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg"> 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-<link href="/assets/css/z.emoj2fav.css" rel="stylesheet">
-<link href="/assets/css/common.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表情符号生成Favicon - Favicon工具箱</title>
+    <!-- 将以下代码添加到您的HTML文件中 -->
+    <link rel="icon" type="image/x-icon" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link href="/assets/css/z.emoj2fav.css" rel="stylesheet">
+    <link href="/assets/css/common.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar">
-<div class="nav-container">
-<div class="logo">
+    <div class="nav-container">
+        <div class="logo">
 <span class="material-symbols-outlined logo-icon">
 <!-- favorite_border -->
 <img src="/assets/favicon-32x32.png"/>
 </span>
-Favicon工具箱
-</div>
-<ul class="nav-links">
-<li><a href="index.html">首页</a></li>
-<li><a href="text-to-favicon.html">文本生成</a></li>
-<li><a href="image-to-favicon.html">图片转换</a></li>
-<li><a href="emoji-to-favicon.html" class="active">表情转换</a></li>
-<li><a href="tutorials.html">教程</a></li>
-<li><a href="logo.html">Logo生成</a></li>
-</ul>
-</div>
+            Favicon工具箱
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="text-to-favicon.html">文本生成</a></li>
+            <li><a href="image-to-favicon.html">图片转换</a></li>
+            <li><a href="emoji-to-favicon.html" class="active">表情转换</a></li>
+            <li><a href="tutorials.html">教程</a></li>
+            <li><a href="logo.html">Logo生成</a></li>
+        </ul>
+    </div>
 </nav>
 <!-- 主内容区 -->
 <div class="container">
@@ -52,7 +53,8 @@ Favicon工具箱
             <div class="controls">
                 <div class="control-group">
                     <label for="emoji-input">表情符号 (1-2个字符)</label>
-                    <input type="text" id="emoji-input" maxlength="2" value="😊" placeholder="输入表情符号" style="font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
+                    <input type="text" id="emoji-input" maxlength="2" value="😊" placeholder="输入表情符号"
+                           style="font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
                 </div>
 
                 <div class="control-group">
@@ -84,27 +86,33 @@ Favicon工具箱
                             <div class="custom-color-label">表情符号颜色</div>
                             <div class="color-slider-wrapper">
                                 <div class="color-slider-container">
-                                    <input type="range" class="color-slider" id="emoji-color-slider" min="0" max="360" value="0">
+                                    <input type="range" class="color-slider" id="emoji-color-slider" min="0" max="360"
+                                           value="0">
                                 </div>
                                 <div class="color-value" id="emoji-color-value">#FF0000</div>
                             </div>
                             <div class="color-input-wrapper">
-                                <div class="color-preview-circle" id="emoji-color-preview" style="background-color: #FF0000;"></div>
-                                <input type="text" class="color-hex-input" id="emoji-color-input" value="#FF0000" maxlength="7">
+                                <div class="color-preview-circle" id="emoji-color-preview"
+                                     style="background-color: #FF0000;"></div>
+                                <input type="text" class="color-hex-input" id="emoji-color-input" value="#FF0000"
+                                       maxlength="7">
                             </div>
                         </div>
-                        
+
                         <div class="custom-color-group">
                             <div class="custom-color-label">背景颜色</div>
                             <div class="color-slider-wrapper">
                                 <div class="color-slider-container">
-                                    <input type="range" class="color-slider" id="bg-color-slider" min="0" max="360" value="200">
+                                    <input type="range" class="color-slider" id="bg-color-slider" min="0" max="360"
+                                           value="200">
                                 </div>
                                 <div class="color-value" id="bg-color-value">#4CC9F0</div>
                             </div>
                             <div class="color-input-wrapper">
-                                <div class="color-preview-circle" id="bg-color-preview" style="background-color: #4CC9F0;"></div>
-                                <input type="text" class="color-hex-input" id="bg-color-input" value="#4CC9F0" maxlength="7">
+                                <div class="color-preview-circle" id="bg-color-preview"
+                                     style="background-color: #4CC9F0;"></div>
+                                <input type="text" class="color-hex-input" id="bg-color-input" value="#4CC9F0"
+                                       maxlength="7">
                             </div>
                         </div>
                     </div>
@@ -150,8 +158,8 @@ Favicon工具箱
             <button class="download-btn secondary" id="download-png">
                 <span class="material-symbols-outlined">download</span> 下载PNG文件包
             </button>
-		</div>	
-		<div class="code-section">
+        </div>
+        <div class="code-section">
             <div class="code-snippet">
                 &lt;!-- 将以下代码添加到您的HTML文件中 --&gt;<br>
                 &lt;link rel="icon" type="image/x-icon" href="/favicon.ico"&gt;<br>
@@ -244,10 +252,10 @@ Favicon工具箱
     function init() {
         // 生成表情符号网格
         generateEmojiGrid();
-        
+
         // 设置事件监听器
         emojiInput.addEventListener('input', updatePreview);
-        
+
         shapeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 shapeOptions.forEach(opt => opt.classList.remove('active'));
@@ -256,40 +264,40 @@ Favicon工具箱
                 updatePreview();
             });
         });
-        
+
         fontSizeSlider.addEventListener('input', () => {
             fontSizeValue.textContent = fontSizeSlider.value;
             currentSettings.fontSize = parseInt(fontSizeSlider.value);
             updatePreview();
         });
-        
+
         // 表情符号颜色滑动条事件
         emojiColorSlider.addEventListener('input', () => {
             const hue = parseInt(emojiColorSlider.value);
             const hexColor = hslToHex(hue, 100, 50);
             updateEmojiColor(hexColor);
         });
-        
+
         // 背景颜色滑动条事件
         bgColorSlider.addEventListener('input', () => {
             const hue = parseInt(bgColorSlider.value);
             const hexColor = hslToHex(hue, 100, 50);
             updateBgColor(hexColor);
         });
-        
+
         // 颜色输入框事件
         emojiColorInput.addEventListener('input', handleEmojiColorInput);
         emojiColorInput.addEventListener('change', handleEmojiColorInput);
-        
+
         bgColorInput.addEventListener('input', handleBgColorInput);
         bgColorInput.addEventListener('change', handleBgColorInput);
-        
+
         transparentBg.addEventListener('change', updatePreview);
-        
+
         // 下载按钮事件
         downloadIcoBtn.addEventListener('click', downloadIco);
         downloadPngBtn.addEventListener('click', downloadPng);
-        
+
         // 初始预览
         updatePreview();
     }
@@ -299,34 +307,46 @@ Favicon工具箱
         h = h % 360;
         s = Math.max(0, Math.min(100, s));
         l = Math.max(0, Math.min(100, l));
-        
+
         s /= 100;
         l /= 100;
-        
+
         const c = (1 - Math.abs(2 * l - 1)) * s;
         const x = c * (1 - Math.abs((h / 60) % 2 - 1));
         const m = l - c / 2;
-        
+
         let r, g, b;
-        
+
         if (h >= 0 && h < 60) {
-            r = c; g = x; b = 0;
+            r = c;
+            g = x;
+            b = 0;
         } else if (h >= 60 && h < 120) {
-            r = x; g = c; b = 0;
+            r = x;
+            g = c;
+            b = 0;
         } else if (h >= 120 && h < 180) {
-            r = 0; g = c; b = x;
+            r = 0;
+            g = c;
+            b = x;
         } else if (h >= 180 && h < 240) {
-            r = 0; g = x; b = c;
+            r = 0;
+            g = x;
+            b = c;
         } else if (h >= 240 && h < 300) {
-            r = x; g = 0; b = c;
+            r = x;
+            g = 0;
+            b = c;
         } else {
-            r = c; g = 0; b = x;
+            r = c;
+            g = 0;
+            b = x;
         }
-        
+
         r = Math.round((r + m) * 255);
         g = Math.round((g + m) * 255);
         b = Math.round((b + m) * 255);
-        
+
         return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
     }
 
@@ -334,59 +354,65 @@ Favicon工具箱
     function hexToHsl(hex) {
         // 移除#号
         hex = hex.replace(/^#/, '');
-        
+
         // 如果是3位简写，扩展为6位
         if (hex.length === 3) {
             hex = hex.split('').map(c => c + c).join('');
         }
-        
+
         // 解析RGB值
         const r = parseInt(hex.substring(0, 2), 16) / 255;
         const g = parseInt(hex.substring(2, 4), 16) / 255;
         const b = parseInt(hex.substring(4, 6), 16) / 255;
-        
+
         const max = Math.max(r, g, b);
         const min = Math.min(r, g, b);
-        
+
         let h, s, l = (max + min) / 2;
-        
+
         if (max === min) {
             h = s = 0; // 灰色
         } else {
             const d = max - min;
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            
+
             switch (max) {
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
             }
-            
+
             h /= 6;
         }
-        
+
         h = Math.round(h * 360);
         s = Math.round(s * 100);
         l = Math.round(l * 100);
-        
-        return { h, s, l };
+
+        return {h, s, l};
     }
 
     // 生成表情符号网格
     function generateEmojiGrid() {
         emojiGrid.innerHTML = '';
-        
+
         popularEmojis.forEach(emoji => {
             const emojiElement = document.createElement('div');
             emojiElement.className = 'emoji-option';
             emojiElement.textContent = emoji;
             emojiElement.title = emoji;
-            
+
             emojiElement.addEventListener('click', () => {
                 emojiInput.value = emoji;
                 updatePreview();
             });
-            
+
             emojiGrid.appendChild(emojiElement);
         });
     }
@@ -397,24 +423,24 @@ Favicon工具箱
         if (!/^#[0-9A-F]{6}$/i.test(hexColor)) {
             return;
         }
-        
+
         const hsl = hexToHsl(hexColor);
-        
+
         // 更新滑动条
         emojiColorSlider.value = hsl.h;
-        
+
         // 更新颜色预览
         emojiColorPreview.style.backgroundColor = hexColor;
-        
+
         // 更新输入框
         emojiColorInput.value = hexColor.toUpperCase();
-        
+
         // 更新颜色值显示
         emojiColorValue.textContent = hexColor.toUpperCase();
-        
+
         // 更新当前设置
         currentSettings.emojiColor = hexColor;
-        
+
         // 更新预览
         updatePreview();
     }
@@ -425,24 +451,24 @@ Favicon工具箱
         if (!/^#[0-9A-F]{6}$/i.test(hexColor)) {
             return;
         }
-        
+
         const hsl = hexToHsl(hexColor);
-        
+
         // 更新滑动条
         bgColorSlider.value = hsl.h;
-        
+
         // 更新颜色预览
         bgColorPreview.style.backgroundColor = hexColor;
-        
+
         // 更新输入框
         bgColorInput.value = hexColor.toUpperCase();
-        
+
         // 更新颜色值显示
         bgColorValue.textContent = hexColor.toUpperCase();
-        
+
         // 更新当前设置
         currentSettings.bgColor = hexColor;
-        
+
         // 更新预览
         updatePreview();
     }
@@ -450,13 +476,13 @@ Favicon工具箱
     // 处理表情符号颜色输入
     function handleEmojiColorInput() {
         let color = emojiColorInput.value;
-        
+
         // 确保颜色以#开头
         if (!color.startsWith('#')) {
             color = '#' + color;
             emojiColorInput.value = color;
         }
-        
+
         // 验证颜色格式
         if (/^#[0-9A-F]{6}$/i.test(color) || /^#[0-9A-F]{3}$/i.test(color)) {
             updateEmojiColor(color);
@@ -466,13 +492,13 @@ Favicon工具箱
     // 处理背景颜色输入
     function handleBgColorInput() {
         let color = bgColorInput.value;
-        
+
         // 确保颜色以#开头
         if (!color.startsWith('#')) {
             color = '#' + color;
             bgColorInput.value = color;
         }
-        
+
         // 验证颜色格式
         if (/^#[0-9A-F]{6}$/i.test(color) || /^#[0-9A-F]{3}$/i.test(color)) {
             updateBgColor(color);
@@ -489,13 +515,13 @@ Favicon工具箱
         previewIcon.textContent = currentSettings.emoji;
         previewIcon.style.fontSize = `${currentSettings.fontSize}rem`;
         previewIcon.style.color = currentSettings.emojiColor;
-        
+
         if (currentSettings.transparentBg) {
             previewIcon.style.backgroundColor = 'transparent';
         } else {
             previewIcon.style.backgroundColor = currentSettings.bgColor;
         }
-        
+
         // 更新形状
         previewIcon.className = 'preview-icon';
         previewIcon.classList.add(currentSettings.shape);
@@ -507,22 +533,22 @@ Favicon工具箱
     // 更新尺寸预览
     function updateSizePreviews() {
         const sizes = [
-            { element: preview16x16, size: 16 },
-            { element: preview32x32, size: 32 },
-            { element: preview64x64, size: 64 },
-            { element: preview128x128, size: 128 }
+            {element: preview16x16, size: 16},
+            {element: preview32x32, size: 32},
+            {element: preview64x64, size: 64},
+            {element: preview128x128, size: 128}
         ];
 
         sizes.forEach(item => {
             item.element.textContent = currentSettings.emoji;
             item.element.style.color = currentSettings.emojiColor;
-            
+
             if (currentSettings.transparentBg) {
                 item.element.style.backgroundColor = 'transparent';
             } else {
                 item.element.style.backgroundColor = currentSettings.bgColor;
             }
-            
+
             // 根据形状设置边框半径
             if (currentSettings.shape === 'circle') {
                 item.element.style.borderRadius = '50%';
@@ -548,7 +574,7 @@ Favicon工具箱
             ctx.fillStyle = currentSettings.bgColor;
             if (currentSettings.shape === 'circle') {
                 ctx.beginPath();
-                ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+                ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
                 ctx.fill();
             } else if (currentSettings.shape === 'rounded') {
                 const radius = size * 0.25;
@@ -575,15 +601,15 @@ Favicon工具箱
         ctx.font = `bold ${size * 0.7}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        
+
         // 尝试绘制表情符号
         try {
-            ctx.fillText(currentSettings.emoji, size/2, size/2);
+            ctx.fillText(currentSettings.emoji, size / 2, size / 2);
         } catch (e) {
             console.log('绘制表情符号失败，尝试替代方案:', e);
             // 如果绘制失败，使用简单的替代方案
             ctx.font = `bold ${size * 0.7}px sans-serif`;
-            ctx.fillText('?', size/2, size/2);
+            ctx.fillText('?', size / 2, size / 2);
         }
 
         return canvas;
@@ -593,7 +619,7 @@ Favicon工具箱
     function downloadIco() {
         const sizes = [16, 32, 48, 64];
         const canvases = sizes.map(size => generateCanvasImage(size));
-        
+
         // 在实际应用中，这里应该使用to-ico库来生成ICO文件
         // 这里简化处理，只下载第一个尺寸的PNG作为示例
         const canvas = canvases[0];
@@ -605,20 +631,20 @@ Favicon工具箱
     // 下载PNG文件包
     function downloadPng() {
         const sizes = [
-            { name: 'favicon-16x16.png', size: 16 },
-            { name: 'favicon-32x32.png', size: 32 },
-            { name: 'apple-touch-icon.png', size: 180 },
-            { name: 'android-chrome-192x192.png', size: 192 },
-            { name: 'android-chrome-512x512.png', size: 512 }
+            {name: 'favicon-16x16.png', size: 16},
+            {name: 'favicon-32x32.png', size: 32},
+            {name: 'apple-touch-icon.png', size: 180},
+            {name: 'android-chrome-192x192.png', size: 192},
+            {name: 'android-chrome-512x512.png', size: 512}
         ];
 
         const zip = new JSZip();
-        
+
         sizes.forEach(item => {
             const canvas = generateCanvasImage(item.size);
             canvas.toBlob(blob => {
                 zip.file(item.name, blob);
-                
+
                 // 当所有文件都添加到zip后，生成zip文件
                 if (Object.keys(zip.files).length === sizes.length) {
                     zip.generateAsync({type: 'blob'}).then(content => {
